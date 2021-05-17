@@ -7,7 +7,17 @@ class CryptoBlock{
      this.precedingHash = precedingHash;
      this.hash = this.computeHash();     
     }
+		
     computeHash(){
         return SHA256(this.index + this.precedingHash + this.timestamp + JSON.stringify(this.data)).toString();
-    }   
+    }
+
+		proofOfWork(difficulty) {
+			while (
+				this.hash.substring(0, difficulty) !== Array(difficulty + 1).join("0")
+			) {
+				this.nonce++;
+				this.hash = this.computeHash();
+			}
+		}   
 }
